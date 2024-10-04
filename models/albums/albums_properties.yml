@@ -12,25 +12,18 @@ models:
     columns:
       - name: currentAlbum
         data_type: struct<amazonmusicid:string,applemusicid:string,artist:string,artistorigin:string,deezerid:string,genres:array<string>,globalreviewsurl:string,images:array<struct<height:bigint,url:string,width:bigint>>,name:string,qobuzid:string,releasedate:string,slug:string,spotifyid:string,subgenres:array<string>,tidalid:bigint,wikipediaurl:string,youtubemusicid:string>
-
       - name: currentAlbumNotes
         data_type: string
-
       - name: history
         data_type: array<struct<album:struct<amazonmusicid:string,applemusicid:string,artist:string,artistorigin:string,deezerid:string,genres:array<string>,globalreviewsurl:string,images:array<struct<height:bigint,url:string,width:bigint>>,name:string,qobuzid:string,releasedate:string,slug:string,spotifyid:string,subgenres:array<string>,tidalid:bigint,wikipediaurl:string,youtubemusicid:string>,generatedat:string,globalrating:double,rating:bigint,revealedalbum:boolean,review:string>>
-
       - name: name
         data_type: string
-
       - name: shareableUrl
         data_type: string
-
       - name: updateFrequency
         data_type: string
-
       - name: load_timestamp
         data_type: timestamp
-
 
   - name: silver_reviews
     description: explode the albums reviewed into their own silver model, keeping
@@ -42,19 +35,16 @@ models:
         tests:
           - not_null
           - unique
-
       - name: album
         description: The name of the album
         data_type: string
         tests:
           - not_null
-
       - name: artist
         description: The name of the album artist
         data_type: string
         tests:
           - not_null
-
       - name: my_rating
         description: My rating
         data_type: bigint
@@ -66,14 +56,11 @@ models:
                 - "3"
                 - "4"
                 - "5"
-
       - name: global_rating
         description: The global rating
         data_type: double
-
       - name: reviewed_on
         description: The timestamp when the review was logged
         data_type: string
         tests:
           - not_null
-
