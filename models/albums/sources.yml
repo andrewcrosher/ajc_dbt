@@ -1,7 +1,0 @@
-version: 2
-
-sources:
-  - name: albums
-    schema: albums  
-    tables:
-      - name: ajc_albums

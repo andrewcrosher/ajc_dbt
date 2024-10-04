@@ -1,25 +1,79 @@
+version: 2
+
+sources:
+  - name: albums
+    schema: albums  
+    tables:
+      - name: ajc_albums
+
 models:
   - name: bronze_albums
     description: a bronze dbt model of the raw albums info
     columns:
       - name: currentAlbum
         data_type: struct<amazonmusicid:string,applemusicid:string,artist:string,artistorigin:string,deezerid:string,genres:array<string>,globalreviewsurl:string,images:array<struct<height:bigint,url:string,width:bigint>>,name:string,qobuzid:string,releasedate:string,slug:string,spotifyid:string,subgenres:array<string>,tidalid:bigint,wikipediaurl:string,youtubemusicid:string>
-        quote: true
+
       - name: currentAlbumNotes
         data_type: string
-        quote: true
+
       - name: history
         data_type: array<struct<album:struct<amazonmusicid:string,applemusicid:string,artist:string,artistorigin:string,deezerid:string,genres:array<string>,globalreviewsurl:string,images:array<struct<height:bigint,url:string,width:bigint>>,name:string,qobuzid:string,releasedate:string,slug:string,spotifyid:string,subgenres:array<string>,tidalid:bigint,wikipediaurl:string,youtubemusicid:string>,generatedat:string,globalrating:double,rating:bigint,revealedalbum:boolean,review:string>>
-        quote: true
+
       - name: name
         data_type: string
-        quote: true
+
       - name: shareableUrl
         data_type: string
-        quote: true
+
       - name: updateFrequency
         data_type: string
-        quote: true
+
       - name: load_timestamp
         data_type: timestamp
-        quote: true
+
+
+  - name: silver_reviews
+    description: explode the albums reviewed into their own silver model, keeping
+      the relevant columns and renaming
+    columns:
+      - name: youtube_id
+        description: The PK of the table, the YouTube album ID
+        data_type: string
+        tests:
+          - not_null
+          - unique
+
+      - name: album
+        description: The name of the album
+        data_type: string
+        tests:
+          - not_null
+
+      - name: artist
+        description: The name of the album artist
+        data_type: string
+        tests:
+          - not_null
+
+      - name: my_rating
+        description: My rating
+        data_type: bigint
+        tests:
+          - accepted_values:
+              values:
+                - "1"
+                - "2"
+                - "3"
+                - "4"
+                - "5"
+
+      - name: global_rating
+        description: The global rating
+        data_type: double
+
+      - name: reviewed_on
+        description: The timestamp when the review was logged
+        data_type: string
+        tests:
+          - not_null
+
