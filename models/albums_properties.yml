@@ -204,6 +204,10 @@ models:
         description: The ablum artist
         data_type: string
         quote: true
+      - name: Release Year
+        description: The year of release
+        data_type: int
+        quote: true
       - name: My Rating
         description: The rating I gave
         data_type: bigint
