@@ -1,7 +1,7 @@
 {
 	"name": "get_albums",
 	"properties": {
-		"description": "Get albums data from 1001 albums website api",
+		"description": "Get albums data from 1001 albums website api and load to the delta lake",
 		"activities": [
 			{
 				"name": "get_album_json",
