@@ -1,0 +1,9 @@
+{
+	"name": "ajc-adf",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "1036ef2e-2c26-4368-83d6-ea23d71bffe1",
+		"tenantId": "df395c04-1b4f-4203-9bd3-e754311c59d1"
+	}
+}

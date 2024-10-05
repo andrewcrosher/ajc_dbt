@@ -1,0 +1,33 @@
+{
+	"name": "daily_1410",
+	"properties": {
+		"description": "a trigger to run at 1410 every day",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "get_albums",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2024-09-22T12:59:00",
+				"timeZone": "GMT Standard Time",
+				"schedule": {
+					"minutes": [
+						10
+					],
+					"hours": [
+						14
+					]
+				}
+			}
+		}
+	}
+}

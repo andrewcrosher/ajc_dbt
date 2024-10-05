@@ -1,0 +1,212 @@
+{
+	"name": "get_album_json_lake_raw_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ajcdatalake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(formatDateTime(utcnow(),'yyyyMMdd'),'-raw_albums', '.json')",
+					"type": "Expression"
+				},
+				"folderPath": "raw",
+				"fileSystem": "albums"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"shareableUrl": {
+					"type": "string"
+				},
+				"currentAlbum": {
+					"type": "object",
+					"properties": {
+						"artist": {
+							"type": "string"
+						},
+						"artistOrigin": {
+							"type": "string"
+						},
+						"images": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"height": {
+										"type": "integer"
+									},
+									"url": {
+										"type": "string"
+									},
+									"width": {
+										"type": "integer"
+									}
+								}
+							}
+						},
+						"genres": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"subGenres": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"name": {
+							"type": "string"
+						},
+						"slug": {
+							"type": "string"
+						},
+						"releaseDate": {
+							"type": "string"
+						},
+						"globalReviewsUrl": {
+							"type": "string"
+						},
+						"wikipediaUrl": {
+							"type": "string"
+						},
+						"spotifyId": {
+							"type": "string"
+						},
+						"appleMusicId": {
+							"type": "string"
+						},
+						"tidalId": {
+							"type": "integer"
+						},
+						"youtubeMusicId": {
+							"type": "string"
+						},
+						"qobuzId": {
+							"type": "string"
+						},
+						"deezerId": {
+							"type": "string"
+						}
+					}
+				},
+				"currentAlbumNotes": {
+					"type": "string"
+				},
+				"updateFrequency": {
+					"type": "string"
+				},
+				"history": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"album": {
+								"type": "object",
+								"properties": {
+									"artist": {
+										"type": "string"
+									},
+									"artistOrigin": {
+										"type": "string"
+									},
+									"images": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"height": {
+													"type": "integer"
+												},
+												"url": {
+													"type": "string"
+												},
+												"width": {
+													"type": "integer"
+												}
+											}
+										}
+									},
+									"genres": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"subGenres": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"name": {
+										"type": "string"
+									},
+									"slug": {
+										"type": "string"
+									},
+									"releaseDate": {
+										"type": "string"
+									},
+									"globalReviewsUrl": {
+										"type": "string"
+									},
+									"wikipediaUrl": {
+										"type": "string"
+									},
+									"spotifyId": {
+										"type": "string"
+									},
+									"appleMusicId": {
+										"type": "string"
+									},
+									"tidalId": {
+										"type": "integer"
+									},
+									"amazonMusicId": {
+										"type": "string"
+									},
+									"youtubeMusicId": {
+										"type": "string"
+									},
+									"qobuzId": {
+										"type": "string"
+									},
+									"deezerId": {
+										"type": "string"
+									}
+								}
+							},
+							"rating": {
+								"type": "integer"
+							},
+							"review": {
+								"type": "string"
+							},
+							"revealedAlbum": {
+								"type": "boolean"
+							},
+							"generatedAt": {
+								"type": "string"
+							},
+							"globalRating": {
+								"type": "number"
+							}
+						}
+					}
+				},
+				"name": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

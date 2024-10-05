@@ -1,0 +1,88 @@
+{
+	"name": "get_albums",
+	"properties": {
+		"description": "Get albums data from 1001 albums website api",
+		"activities": [
+			{
+				"name": "get_album_json",
+				"description": "gets album data from api call and saves as a json file in the storage account",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "FlattenHierarchy"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "1001_albums_source",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "get_album_json_lake_raw_sink",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "load_to_delta_table",
+				"description": "takes today's json file and loads into a delta table using an adb notebook",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "get_album_json",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/andrewcrosher@outlook.com/adf_scripts/load_albums_delta"
+				},
+				"linkedServiceName": {
+					"referenceName": "ajc_adb_dbt_ls",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-10-04T20:11:04Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
