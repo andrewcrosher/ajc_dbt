@@ -1,8 +1,6 @@
 with cte_all as (
   select
     h.album.youtubeMusicId as youtube_id,
-    h.album.name as album,
-    h.album.artist as artist,
     h.rating as my_rating,
     h.globalRating as global_rating,
     h.generatedAt as reviewed_on
@@ -12,6 +10,19 @@ with cte_all as (
     load_timestamp desc
 )
 
-select distinct *
-from cte_all
-order by reviewed_on
+, cte_dedup as (
+  select 
+    distinct *
+  from 
+    cte_all
+  order by
+    reviewed_on
+)
+
+select
+  youtube_id
+  , my_rating
+  , global_rating
+  , CAST(reviewed_on AS date) as review_date
+from
+  cte_dedup

@@ -1,11 +1,9 @@
 version: 2
-
 sources:
   - name: albums
-    schema: albums  
+    schema: albums
     tables:
       - name: ajc_albums
-
 models:
   - name: bronze_albums
     description: a bronze dbt model of the raw albums info
@@ -25,9 +23,37 @@ models:
       - name: load_timestamp
         data_type: timestamp
 
-  - name: silver_reviews
-    description: explode the albums reviewed into their own silver model, keeping
-      the relevant columns and renaming
+  - name: silver_fact_review
+    description: a fact table of album review measures
+    columns:
+      - name: youtube_id
+        description: The PK of the table, the YouTube album ID
+        data_type: string
+        tests:
+          - not_null
+          - unique
+      - name: my_rating
+        description: My rating
+        data_type: bigint
+        tests:
+          - accepted_values:
+              values:
+                - "1"
+                - "2"
+                - "3"
+                - "4"
+                - "5"
+      - name: global_rating
+        description: The global rating
+        data_type: double
+      - name: review_date
+        description: The date when the review was logged
+        data_type: date
+        tests:
+          - not_null
+
+  - name: silver_dim_album
+    description: a dimension table of all albums reviewed
     columns:
       - name: youtube_id
         description: The PK of the table, the YouTube album ID
@@ -45,22 +71,13 @@ models:
         data_type: string
         tests:
           - not_null
-      - name: my_rating
-        description: My rating
-        data_type: bigint
+      - name: release_date
+        description: Year that the album was released
+        data_type: string
         tests:
-          - accepted_values:
-              values:
-                - "1"
-                - "2"
-                - "3"
-                - "4"
-                - "5"
-      - name: global_rating
-        description: The global rating
-        data_type: double
-      - name: reviewed_on
-        description: The timestamp when the review was logged
+          - not_null
+      - name: wikipedia_url
+        description: URL of the Wikipedia article for this album
         data_type: string
         tests:
           - not_null
