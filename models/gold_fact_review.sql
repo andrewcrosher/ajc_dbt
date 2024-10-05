@@ -5,7 +5,7 @@ select
     fr.my_rating as `My Rating`,
     fr.global_rating as `Global Rating`,
     cast(
-        fr.my_rating / fr.global_rating as decimal(5, 2)
+        (fr.my_rating / fr.global_rating) * 100 as decimal(5, 2)
     ) as `My Relative Rating`,
     fr.review_date as `Review Date`,
     da.wikipedia_url as `Wikipedia Link`
