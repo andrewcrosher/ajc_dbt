@@ -224,3 +224,16 @@ models:
         description: The date of the review
         data_type: date
         quote: true
+
+exposures:
+  - name: 1001_albums_review_dashboard
+    type: dashboard
+    maturity: high
+    url: https://adb-2359489148887710.10.azuredatabricks.net/dashboardsv3/01ef83092f1b1403b7967bea7000d543/published?o=2359489148887710&f_01ef8314636c17ee88df636697944312=_all_&f_01ef8315346e1f7e9848122c041edf4b=_all_
+    description: >
+      A Databricks dashboard
+    depends_on:
+      - ref('gold_fact_review')
+    owner:
+      name: Andrew Crosher
+      email: andrewcrosher@outlook.com
