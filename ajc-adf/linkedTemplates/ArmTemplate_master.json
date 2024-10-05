@@ -1,0 +1,77 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "ajc-adf"
+		},
+		"ajc_adb_dbt_ls_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'ajc_adb_dbt_ls'"
+		},
+		"ajcdatalake_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ajcdatalake'"
+		},
+		"1001albumsapi_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://1001albumsgenerator.com/api/v1/projects/guglop"
+		},
+		"ajc_adb_dbt_ls_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "1004-195333-vtgry49a"
+		},
+		"ajcdatalake_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ajcdatalakesa.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "ajc-adf_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ajc_adb_dbt_ls_accessToken": {
+						"value": "[parameters('ajc_adb_dbt_ls_accessToken')]"
+					},
+					"ajcdatalake_accountKey": {
+						"value": "[parameters('ajcdatalake_accountKey')]"
+					},
+					"1001albumsapi_properties_typeProperties_url": {
+						"value": "[parameters('1001albumsapi_properties_typeProperties_url')]"
+					},
+					"ajc_adb_dbt_ls_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('ajc_adb_dbt_ls_properties_typeProperties_existingClusterId')]"
+					},
+					"ajcdatalake_properties_typeProperties_url": {
+						"value": "[parameters('ajcdatalake_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ajc-adf"
+		},
+		"ajc_adb_dbt_ls_accessToken": {
+			"value": ""
+		},
+		"ajcdatalake_accountKey": {
+			"value": ""
+		},
+		"1001albumsapi_properties_typeProperties_url": {
+			"value": "https://1001albumsgenerator.com/api/v1/projects/guglop"
+		},
+		"ajc_adb_dbt_ls_properties_typeProperties_existingClusterId": {
+			"value": "1004-195333-vtgry49a"
+		},
+		"ajcdatalake_properties_typeProperties_url": {
+			"value": "https://ajcdatalakesa.dfs.core.windows.net/"
+		}
+	}
+}

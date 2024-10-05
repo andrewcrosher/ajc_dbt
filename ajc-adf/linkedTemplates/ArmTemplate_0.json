@@ -1,0 +1,651 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "ajc-adf"
+		},
+		"ajc_adb_dbt_ls_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'ajc_adb_dbt_ls'"
+		},
+		"ajcdatalake_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ajcdatalake'"
+		},
+		"1001albumsapi_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://1001albumsgenerator.com/api/v1/projects/guglop"
+		},
+		"ajc_adb_dbt_ls_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "1004-195333-vtgry49a"
+		},
+		"ajcdatalake_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ajcdatalakesa.dfs.core.windows.net/"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/1001albumsapi')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('1001albumsapi_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ajc_adb_dbt_ls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-2359489148887710.10.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('ajc_adb_dbt_ls_accessToken')]"
+					},
+					"existingClusterId": "[parameters('ajc_adb_dbt_ls_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ajcdatalake')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ajcdatalake_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ajcdatalake_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/1001_albums_source')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "import album info as per developer notes in https://www.reddit.com/r/1001AlbumsGenerator/comments/p6xw6y/json_api/",
+				"linkedServiceName": {
+					"referenceName": "1001albumsapi",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"shareableUrl": {
+							"type": "string"
+						},
+						"currentAlbum": {
+							"type": "object",
+							"properties": {
+								"artist": {
+									"type": "string"
+								},
+								"artistOrigin": {
+									"type": "string"
+								},
+								"images": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"height": {
+												"type": "integer"
+											},
+											"url": {
+												"type": "string"
+											},
+											"width": {
+												"type": "integer"
+											}
+										}
+									}
+								},
+								"genres": {
+									"type": "array",
+									"items": {
+										"type": "string"
+									}
+								},
+								"subGenres": {
+									"type": "array",
+									"items": {
+										"type": "string"
+									}
+								},
+								"name": {
+									"type": "string"
+								},
+								"slug": {
+									"type": "string"
+								},
+								"releaseDate": {
+									"type": "string"
+								},
+								"globalReviewsUrl": {
+									"type": "string"
+								},
+								"wikipediaUrl": {
+									"type": "string"
+								},
+								"spotifyId": {
+									"type": "string"
+								},
+								"appleMusicId": {
+									"type": "string"
+								},
+								"tidalId": {
+									"type": "integer"
+								},
+								"youtubeMusicId": {
+									"type": "string"
+								},
+								"qobuzId": {
+									"type": "string"
+								},
+								"deezerId": {
+									"type": "string"
+								}
+							}
+						},
+						"currentAlbumNotes": {
+							"type": "string"
+						},
+						"updateFrequency": {
+							"type": "string"
+						},
+						"history": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"album": {
+										"type": "object",
+										"properties": {
+											"artist": {
+												"type": "string"
+											},
+											"artistOrigin": {
+												"type": "string"
+											},
+											"images": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"height": {
+															"type": "integer"
+														},
+														"url": {
+															"type": "string"
+														},
+														"width": {
+															"type": "integer"
+														}
+													}
+												}
+											},
+											"genres": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"subGenres": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"name": {
+												"type": "string"
+											},
+											"slug": {
+												"type": "string"
+											},
+											"releaseDate": {
+												"type": "string"
+											},
+											"globalReviewsUrl": {
+												"type": "string"
+											},
+											"wikipediaUrl": {
+												"type": "string"
+											},
+											"spotifyId": {
+												"type": "string"
+											},
+											"appleMusicId": {
+												"type": "string"
+											},
+											"tidalId": {
+												"type": "integer"
+											},
+											"amazonMusicId": {
+												"type": "string"
+											},
+											"youtubeMusicId": {
+												"type": "string"
+											},
+											"qobuzId": {
+												"type": "string"
+											},
+											"deezerId": {
+												"type": "string"
+											}
+										}
+									},
+									"rating": {
+										"type": "integer"
+									},
+									"review": {
+										"type": "string"
+									},
+									"revealedAlbum": {
+										"type": "boolean"
+									},
+									"generatedAt": {
+										"type": "string"
+									},
+									"globalRating": {
+										"type": "number"
+									}
+								}
+							}
+						},
+						"name": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/1001albumsapi')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/get_album_json_lake_raw_sink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ajcdatalake",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat(formatDateTime(utcnow(),'yyyyMMdd'),'-raw_albums', '.json')",
+							"type": "Expression"
+						},
+						"folderPath": "raw",
+						"fileSystem": "albums"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"shareableUrl": {
+							"type": "string"
+						},
+						"currentAlbum": {
+							"type": "object",
+							"properties": {
+								"artist": {
+									"type": "string"
+								},
+								"artistOrigin": {
+									"type": "string"
+								},
+								"images": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"height": {
+												"type": "integer"
+											},
+											"url": {
+												"type": "string"
+											},
+											"width": {
+												"type": "integer"
+											}
+										}
+									}
+								},
+								"genres": {
+									"type": "array",
+									"items": {
+										"type": "string"
+									}
+								},
+								"subGenres": {
+									"type": "array",
+									"items": {
+										"type": "string"
+									}
+								},
+								"name": {
+									"type": "string"
+								},
+								"slug": {
+									"type": "string"
+								},
+								"releaseDate": {
+									"type": "string"
+								},
+								"globalReviewsUrl": {
+									"type": "string"
+								},
+								"wikipediaUrl": {
+									"type": "string"
+								},
+								"spotifyId": {
+									"type": "string"
+								},
+								"appleMusicId": {
+									"type": "string"
+								},
+								"tidalId": {
+									"type": "integer"
+								},
+								"youtubeMusicId": {
+									"type": "string"
+								},
+								"qobuzId": {
+									"type": "string"
+								},
+								"deezerId": {
+									"type": "string"
+								}
+							}
+						},
+						"currentAlbumNotes": {
+							"type": "string"
+						},
+						"updateFrequency": {
+							"type": "string"
+						},
+						"history": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"album": {
+										"type": "object",
+										"properties": {
+											"artist": {
+												"type": "string"
+											},
+											"artistOrigin": {
+												"type": "string"
+											},
+											"images": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"height": {
+															"type": "integer"
+														},
+														"url": {
+															"type": "string"
+														},
+														"width": {
+															"type": "integer"
+														}
+													}
+												}
+											},
+											"genres": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"subGenres": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"name": {
+												"type": "string"
+											},
+											"slug": {
+												"type": "string"
+											},
+											"releaseDate": {
+												"type": "string"
+											},
+											"globalReviewsUrl": {
+												"type": "string"
+											},
+											"wikipediaUrl": {
+												"type": "string"
+											},
+											"spotifyId": {
+												"type": "string"
+											},
+											"appleMusicId": {
+												"type": "string"
+											},
+											"tidalId": {
+												"type": "integer"
+											},
+											"amazonMusicId": {
+												"type": "string"
+											},
+											"youtubeMusicId": {
+												"type": "string"
+											},
+											"qobuzId": {
+												"type": "string"
+											},
+											"deezerId": {
+												"type": "string"
+											}
+										}
+									},
+									"rating": {
+										"type": "integer"
+									},
+									"review": {
+										"type": "string"
+									},
+									"revealedAlbum": {
+										"type": "boolean"
+									},
+									"generatedAt": {
+										"type": "string"
+									},
+									"globalRating": {
+										"type": "number"
+									}
+								}
+							}
+						},
+						"name": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ajcdatalake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/get_albums')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Get albums data from 1001 albums website api and load to the delta lake",
+				"activities": [
+					{
+						"name": "get_album_json",
+						"description": "gets album data from api call and saves as a json file in the storage account",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "FlattenHierarchy"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "1001_albums_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "get_album_json_lake_raw_sink",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "load_to_delta_table",
+						"description": "takes today's json file and loads into a delta table using an adb notebook",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "get_album_json",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/andrewcrosher@outlook.com/adf_scripts/load_albums_delta"
+						},
+						"linkedServiceName": {
+							"referenceName": "ajc_adb_dbt_ls",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-10-04T20:11:04Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/1001_albums_source')]",
+				"[concat(variables('factoryId'), '/datasets/get_album_json_lake_raw_sink')]",
+				"[concat(variables('factoryId'), '/linkedServices/ajc_adb_dbt_ls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/daily_1410')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "a trigger to run at 1410 every day",
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "get_albums",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2024-09-22T12:59:00",
+						"timeZone": "GMT Standard Time",
+						"schedule": {
+							"minutes": [
+								10
+							],
+							"hours": [
+								14
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/get_albums')]"
+			]
+		}
+	]
+}
