@@ -73,7 +73,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/andrewcrosher@outlook.com/adf_scripts/load_albums_delta"
+					"notebookPath": "/Users/andrewcrosher@outlook.com/ajc_dbt/adb/load_albums_delta"
 				},
 				"linkedServiceName": {
 					"referenceName": "ajc_adb_dbt_ls",
