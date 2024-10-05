@@ -23,7 +23,7 @@ visualisation.
 
 ## Visualisation
 
-Back in the ADB workspace used to load the daily delta table, a Dashboard visualisation is setup to point to the 
-Gold layer of the dbt warehouse and provide simple visualisations and analysis.
+In the ADB workspace, a Dashboard visualisation uses the Gold layer of the dbt warehouse and provides simple
+visualisations and analysis.
 
-Users with permission can access the visualisation dashboard vis the ADB workspace [here](https://adb-2359489148887710.10.azuredatabricks.net/dashboardsv3/01ef83092f1b1403b7967bea7000d543/published?o=2359489148887710)
+Users with permission can access the visualisation dashboard via the ADB workspace [here](https://adb-2359489148887710.10.azuredatabricks.net/dashboardsv3/01ef83092f1b1403b7967bea7000d543/published?o=2359489148887710)
