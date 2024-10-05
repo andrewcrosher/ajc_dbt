@@ -3,4 +3,3 @@ target/
 dbt_packages/
 logs/
 ajc_venv/
-.vscode/
