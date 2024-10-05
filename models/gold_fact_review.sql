@@ -7,7 +7,8 @@ select
     cast(
         fr.my_rating / fr.global_rating as decimal(5, 2)
     ) as `My Relative Rating`,
-    fr.review_date as `Review Date`
+    fr.review_date as `Review Date`,
+    da.wikipedia_url as `Wikipedia Link`
 from
     {{ ref('silver_fact_review') }} as fr
 inner join
