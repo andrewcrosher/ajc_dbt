@@ -3,7 +3,8 @@ with cte_all as (
         h.album.youtubemusicid as youtube_id,
         h.rating as my_rating,
         h.globalrating as global_rating,
-        h.generatedat as reviewed_on
+        h.generatedat as reviewed_on,
+        load_timestamp
     from
         {{ ref('bronze_albums') }} lateral view explode(history) as h
     order by
@@ -11,11 +12,18 @@ with cte_all as (
 ),
 
 cte_dedup as (
-    select distinct *
-    from
-        cte_all
-    order by
-        reviewed_on
+    select *
+    from (
+        select
+            ca.*,
+            row_number()
+                over (
+                    partition by ca.youtube_id order by ca.load_timestamp desc
+                )
+            as rn
+        from cte_all as ca
+    ) as sub
+    where rn = 1
 )
 
 select
