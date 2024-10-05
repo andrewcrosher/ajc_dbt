@@ -13,3 +13,5 @@ from
 inner join
     {{ ref("silver_dim_album") }} as da
     on fr.youtube_id = da.youtube_id
+order by
+    fr.review_date desc
