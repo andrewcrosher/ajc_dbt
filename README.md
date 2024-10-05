@@ -1,17 +1,22 @@
 # Summary
 
-This is a simple project to extract and model data using dbt and Databricks.
+This is a simple project to extract and model data using Azure Data Factory, dbt and Databricks.
 
-## data flow
+## Data Source
 
-Data is sourced from an API provided by the webapp [1001albumsgenerator](https://1001albumsgenerator.com/). Every day
-data is extracted via this API as a JSON file and stored as raw data in an Azure storage account via an Azure Data
-Factory pipeline.
+Data is sourced from an API provided by the webapp [1001albumsgenerator](https://1001albumsgenerator.com/). 
+
+## ETL via Data Factory
+
+Data is extracted daily as JSON and stored as raw data in an Azure storage account via an Azure Data Factory
+pipeline.
 
 The ADF pipeline then calls an Azure Databricks notebook that loads today's json file into a delta table in an
 ADB workspace.
 
-## dbt Processing
+The source code for the Data Factory is stored in the `/adf` folder.
+
+## dbt
 
 This dbt project takes the raw Albums data and builds a small set of dimensional models to allow for data analysis and
 visualisation. 
