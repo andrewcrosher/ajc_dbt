@@ -81,3 +81,142 @@ models:
         data_type: string
         tests:
           - not_null
+
+  - name: silver_dim_date
+    description: a date dimension, materialised as a table using the dbt_date.get_date_dimension macro
+    columns:
+      - name: date_day
+        data_type: date
+        quote: true
+      - name: prior_date_day
+        data_type: date
+        quote: true
+      - name: next_date_day
+        data_type: date
+        quote: true
+      - name: prior_year_date_day
+        data_type: date
+        quote: true
+      - name: prior_year_over_year_date_day
+        data_type: date
+        quote: true
+      - name: day_of_week
+        data_type: int
+        quote: true
+      - name: day_of_week_iso
+        data_type: int
+        quote: true
+      - name: day_of_week_name
+        data_type: string
+        quote: true
+      - name: day_of_week_name_short
+        data_type: string
+        quote: true
+      - name: day_of_month
+        data_type: int
+        quote: true
+      - name: day_of_year
+        data_type: int
+        quote: true
+      - name: week_start_date
+        data_type: date
+        quote: true
+      - name: week_end_date
+        data_type: date
+        quote: true
+      - name: prior_year_week_start_date
+        data_type: date
+        quote: true
+      - name: prior_year_week_end_date
+        data_type: date
+        quote: true
+      - name: week_of_year
+        data_type: int
+        quote: true
+      - name: iso_week_start_date
+        data_type: date
+        quote: true
+      - name: iso_week_end_date
+        data_type: date
+        quote: true
+      - name: prior_year_iso_week_start_date
+        data_type: date
+        quote: true
+      - name: prior_year_iso_week_end_date
+        data_type: date
+        quote: true
+      - name: iso_week_of_year
+        data_type: int
+        quote: true
+      - name: prior_year_week_of_year
+        data_type: int
+        quote: true
+      - name: prior_year_iso_week_of_year
+        data_type: int
+        quote: true
+      - name: month_of_year
+        data_type: int
+        quote: true
+      - name: month_name
+        data_type: string
+        quote: true
+      - name: month_name_short
+        data_type: string
+        quote: true
+      - name: month_start_date
+        data_type: date
+        quote: true
+      - name: month_end_date
+        data_type: date
+        quote: true
+      - name: prior_year_month_start_date
+        data_type: date
+        quote: true
+      - name: prior_year_month_end_date
+        data_type: date
+        quote: true
+      - name: quarter_of_year
+        data_type: int
+        quote: true
+      - name: quarter_start_date
+        data_type: date
+        quote: true
+      - name: quarter_end_date
+        data_type: date
+        quote: true
+      - name: year_number
+        data_type: int
+        quote: true
+      - name: year_start_date
+        data_type: date
+        quote: true
+      - name: year_end_date
+        data_type: date
+        quote: true
+
+  - name: gold_fact_review
+    columns:
+      - name: Album
+        description: The album being rated
+        data_type: string
+        quote: true
+      - name: Artist
+        description: The ablum artist
+        data_type: string
+        quote: true
+      - name: My Rating
+        description: The rating I gave
+        data_type: bigint
+        quote: true
+      - name: Global Rating
+        description: The global rating
+        data_type: double
+        quote: true
+      - name: My Relative Rating
+        description: My rating indexed against the global rating
+        data_type: decimal(5,2)
+        quote: true
+      - name: Review Date
+        description: The date of the review
+        data_type: date
+        quote: true
