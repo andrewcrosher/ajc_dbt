@@ -1,0 +1,4 @@
+[sqlfluff]
+templater = dbt
+dialect = sparksql
+exclude_rules = RF05, RF03
