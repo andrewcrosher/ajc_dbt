@@ -29,6 +29,3 @@ jobs:
       - name: Verify dbt installation
         run: |
           dbt --version
-
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.2.1-node20
