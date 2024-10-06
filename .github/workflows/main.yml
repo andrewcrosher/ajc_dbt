@@ -36,3 +36,13 @@ jobs:
         with:
           name: artifact
           path: models/*.sql  
+
+  check_secrets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - shell: bash
+        env:
+          SUPER_SECRET: ${{ secrets.ADBTOKEN }}
+        run: |
+          printenv
