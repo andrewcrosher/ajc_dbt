@@ -1,4 +1,4 @@
-name: CI
+name: CI - ${{ github.event_name }} - ${{ github.run_id }}
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
       - name: Install pip dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install dbt sqlfluff
+          pip install dbt sqlfluff-templater-dbt
 
       - name: Verify installation
         run: |
