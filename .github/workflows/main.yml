@@ -23,7 +23,7 @@ jobs:
       - name: Install pip dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install dbt sqlfluff-templater-dbt
+          pip install dbt-databricks sqlfluff-templater-dbt
 
       - name: Verify installation
         run: |
@@ -34,7 +34,6 @@ jobs:
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}      
         run: |
-          dbt --version
           dbt debug --profile ajc_adb_dbt_all_purpose
 
       - name: Publish artifact
