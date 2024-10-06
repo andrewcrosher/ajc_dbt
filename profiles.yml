@@ -1,0 +1,11 @@
+ajc_adb_dbt_all_purpose:
+  outputs:
+    dev:
+      catalog: null
+      host: adb-2359489148887710.10.azuredatabricks.net
+      http_path: sql/protocolv1/o/2359489148887710/1004-195333-vtgry49a
+      schema: ajc_dbt
+      threads: 1
+      token: "{{ env_var('adbtoken') }}"
+      type: databricks
+  target: dev

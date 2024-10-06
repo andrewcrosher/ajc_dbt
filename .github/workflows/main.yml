@@ -44,4 +44,4 @@ jobs:
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}
         run: |
-          printenv
+          dbt debug --profile ajc_adb_dbt_all_purpose
