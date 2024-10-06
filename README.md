@@ -2,6 +2,12 @@
 
 This is a simple project to extract and model data using Azure Data Factory, dbt and Databricks.
 
+## Build Status
+
+GitHub Actions workflow CI pipeline triggered on push to `main`
+
+[![CI](https://github.com/andrewcrosher/ajc_dbt/actions/workflows/main.yml/badge.svg)](https://github.com/andrewcrosher/ajc_dbt/actions/workflows/main.yml)
+
 ## Data Source
 
 Data is sourced from an API provided by the webapp [1001albumsgenerator](https://1001albumsgenerator.com/). 
