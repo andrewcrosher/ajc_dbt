@@ -35,6 +35,7 @@ jobs:
 
       - name: Lint with sqlfluff
         run: |
+          dbt compile --profile $profile
           sqlfluff lint models/*.sql
 
       - name: dbt debug profile
