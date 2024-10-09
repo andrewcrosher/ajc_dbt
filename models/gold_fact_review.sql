@@ -1,6 +1,6 @@
 select
-    da.album,
-    da.artist,
+    da.album as `Album`,
+    da.artist as `Artist`,
     cast(da.release_date as int) as `Release Year`,
     fr.my_rating as `My Rating`,
     fr.global_rating as `Global Rating`,
