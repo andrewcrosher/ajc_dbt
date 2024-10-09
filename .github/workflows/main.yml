@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  profile: ajc_adb_dbt_all_purpose
+
 jobs:
   install:
     runs-on: ubuntu-latest
@@ -34,13 +37,13 @@ jobs:
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}      
         run: |
-          dbt debug --profile ajc_adb_dbt_all_purpose
+          dbt debug --profile $profile
 
       - name: dbt build
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}      
         run: |
-          dbt build
+          dbt build --profile $profile
           
       - name: Publish artifact
         uses: actions/upload-artifact@v4
