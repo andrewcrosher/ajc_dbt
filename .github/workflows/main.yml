@@ -12,7 +12,7 @@ env:
   profile: ajc_adb_dbt_all_purpose
 
 jobs:
-  install:
+  run_dbt:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -32,6 +32,10 @@ jobs:
         run: |
           dbt --version
           sqlfluff --version
+
+      - name: Lint with sqlfluff
+        run: |
+          sqlfluff lint models/*.sql
 
       - name: dbt debug profile
         env:
