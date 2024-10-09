@@ -39,6 +39,12 @@ jobs:
         run: |
           dbt debug --profile $profile
 
+      - name: dbt deps
+        env:
+          adbtoken: ${{ secrets.ADBTOKEN }}      
+        run: |
+          dbt deps --profile $profile
+
       - name: dbt build
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}      
