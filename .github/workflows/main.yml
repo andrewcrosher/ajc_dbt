@@ -45,11 +45,14 @@ jobs:
         run: |
           dbt deps --profile $profile
 
-      - name: Lint with sqlfluff
+      - name: dbt compile
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}   
         run: |
           dbt compile --profile $profile
+
+      - name: Lint with sqlfluff
+        run: |
           sqlfluff lint models/*.sql
 
       - name: dbt build
