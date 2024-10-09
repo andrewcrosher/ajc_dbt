@@ -36,6 +36,12 @@ jobs:
         run: |
           dbt debug --profile ajc_adb_dbt_all_purpose
 
+      - name: dbt build
+        env:
+          adbtoken: ${{ secrets.ADBTOKEN }}      
+        run: |
+          dbt build
+          
       - name: Publish artifact
         uses: actions/upload-artifact@v4
         with:
