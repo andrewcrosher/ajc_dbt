@@ -33,13 +33,6 @@ jobs:
           dbt --version
           sqlfluff --version
 
-      - name: Lint with sqlfluff
-        env:
-          adbtoken: ${{ secrets.ADBTOKEN }}   
-        run: |
-          dbt compile --profile $profile
-          sqlfluff lint models/*.sql
-
       - name: dbt debug profile
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}      
@@ -51,6 +44,13 @@ jobs:
           adbtoken: ${{ secrets.ADBTOKEN }}      
         run: |
           dbt deps --profile $profile
+
+      - name: Lint with sqlfluff
+        env:
+          adbtoken: ${{ secrets.ADBTOKEN }}   
+        run: |
+          dbt compile --profile $profile
+          sqlfluff lint models/*.sql
 
       - name: dbt build
         env:
