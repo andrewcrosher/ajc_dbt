@@ -34,6 +34,8 @@ jobs:
           sqlfluff --version
 
       - name: Lint with sqlfluff
+        env:
+          adbtoken: ${{ secrets.ADBTOKEN }}   
         run: |
           dbt compile --profile $profile
           sqlfluff lint models/*.sql
