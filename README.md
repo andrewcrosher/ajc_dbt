@@ -14,13 +14,13 @@ along with some metadata such as release year, wikipedia link, genres and global
 
 ## Build: GitHub Actions
 
-A GitHub Actions Workflow pipeline called `CI` is triggered on push to the `main` branch. This pipeline compiles
-and lints the dbt project code before building it on the target Databricks database.
+A GitHub Actions Workflow pipeline is triggered on push to the `main` branch and on completion of a PR. This pipeline
+compiles and lints the dbt project code before building it on the target Databricks database. A Databricks personal
+access token is stored as an environment variable called `ADBTOKEN`.
 
 Build status:
 
 [![CI](https://github.com/andrewcrosher/ajc_dbt/actions/workflows/main.yml/badge.svg)](https://github.com/andrewcrosher/ajc_dbt/actions/workflows/main.yml)
-
 
 ## Extract: Data Factory
 
@@ -28,7 +28,10 @@ Data is extracted daily as JSON and stored as raw data in an Azure storage accou
 pipeline `get_albums`.
 
 The pipeline then calls an Azure Databricks notebook called `load_albums_delta` that loads today's json file into a 
-delta table in an ADB workspace.
+delta table in an ADB workspace. 
+
+Storage account access is managed via an API call to an Azure Key Vault that hold the details of a storage account
+key to be used by Databricks to connect to.
 
 The source code for the Data Factory is stored in the [adf](./adf/) folder. The Databricks notebook lives in the
 [adb](/adb/) folder.
