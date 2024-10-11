@@ -18,28 +18,28 @@ env:
   profile: ajc_adb_dbt_all_purpose
 
 jobs:
-  run_dbt:
+  dbt_ci:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: checkout code
         uses: actions/checkout@v4
 
-      # - name: Set up Python
-      #   uses: actions/setup-python@v5
-      #   with:
-      #     python-version: '3.8'
+      - name: set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
 
-      # - name: Install pip dependencies
-      #   run: |
-      #     python -m pip install --upgrade pip
-      #     pip install dbt-databricks sqlfluff-templater-dbt
+      - name: install pip dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-databricks sqlfluff-templater-dbt
 
-      # - name: Verify installation
-      #   run: |
-      #     dbt --version
-      #     sqlfluff --version
+      - name: verify installation
+        run: |
+          dbt --version
+          sqlfluff --version
 
-      # - name: dbt debug profile
+      # - name: dbt debug
       #   env:
       #     adbtoken: ${{ secrets.ADBTOKEN }}      
       #   run: |
@@ -57,7 +57,7 @@ jobs:
       #   run: |
       #     dbt compile --profile $profile
 
-      # - name: Lint with sqlfluff
+      # - name: sqlfluff lint
       #   env:
       #     adbtoken: ${{ secrets.ADBTOKEN }}     
       #   run: |
@@ -69,8 +69,11 @@ jobs:
       #   run: |
       #     dbt build --profile $profile
           
-      # - name: Publish artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: artifact
-      #     path: models/*.sql  
+      - name: artifact publish
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt_artifact
+          path: |
+            '**/*'
+            !adf/**
+            !adb/**
