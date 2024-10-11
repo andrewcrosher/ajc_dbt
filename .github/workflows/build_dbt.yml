@@ -3,7 +3,7 @@ name: build_dbt
 on:
   push:
     branches:
-      - dev/ci_development
+      - main
     paths-ignore:
       - adb/**
       - adf/**
