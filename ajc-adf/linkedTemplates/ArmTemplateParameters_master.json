@@ -20,6 +20,9 @@
 		"ajcdatalake_properties_typeProperties_url": {
 			"value": "https://ajcdatalakesa.dfs.core.windows.net/"
 		},
+		"ajckv_properties_typeProperties_baseUrl": {
+			"value": "https://ajckv.vault.azure.net/"
+		},
 		"containerUri": {
 			"value": ""
 		},

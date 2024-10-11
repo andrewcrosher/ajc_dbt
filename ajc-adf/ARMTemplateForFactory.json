@@ -26,6 +26,10 @@
 		"ajcdatalake_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ajcdatalakesa.dfs.core.windows.net/"
+		},
+		"ajckv_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://ajckv.vault.azure.net/"
 		}
 	},
 	"variables": {
@@ -100,6 +104,18 @@
 								"dependencyConditions": [
 									"Succeeded"
 								]
+							},
+							{
+								"activity": "storage-account-name",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "storage-account-access-key",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
 						],
 						"policy": {
@@ -111,16 +127,126 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"notebookPath": "/Users/andrewcrosher@outlook.com/ajc_dbt/adb/load_albums_delta"
+							"notebookPath": "/Users/andrewcrosher@outlook.com/ajc_dbt/adb/load_albums_delta",
+							"baseParameters": {
+								"storage_account_name": {
+									"value": "@variables('storage-account-name')",
+									"type": "Expression"
+								},
+								"storage_account_access_key": {
+									"value": "@variables('storage-account-access-key')",
+									"type": "Expression"
+								}
+							}
 						},
 						"linkedServiceName": {
 							"referenceName": "ajc_adb_dbt_ls",
 							"type": "LinkedServiceReference"
 						}
+					},
+					{
+						"name": "get_akv_secret_storage_account_key_value",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": true,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "GET",
+							"headers": {},
+							"url": "https://ajckv.vault.azure.net/secrets/storage-account-access-key/45104a9f7be9493ca2ed2f7c5c22c20a?api-version=7.0",
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://vault.azure.net"
+							}
+						}
+					},
+					{
+						"name": "storage-account-access-key",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "get_akv_secret_storage_account_key_value",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": true,
+							"secureInput": true
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "storage-account-access-key",
+							"value": {
+								"value": "@activity('get_akv_secret_storage_account_key_value').output.value",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "get_akv_secret_storage_account_name",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": true,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "GET",
+							"headers": {},
+							"url": "https://ajckv.vault.azure.net/secrets/storage-account-name/f37c2bcfa2ca4eb9bdd9dfb8fe16fbfd?api-version=7.0",
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://vault.azure.net"
+							}
+						}
+					},
+					{
+						"name": "storage-account-name",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "get_akv_secret_storage_account_name",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": true,
+							"secureInput": true
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "storage-account-name",
+							"value": {
+								"value": "@activity('get_akv_secret_storage_account_name').output.value",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"storage-account-access-key": {
+						"type": "String"
+					},
+					"storage-account-name": {
+						"type": "String"
+					}
 				},
 				"annotations": [],
 				"lastPublishTime": "2024-10-04T20:11:04Z"
@@ -604,6 +730,19 @@
 						"type": "SecureString",
 						"value": "[parameters('ajcdatalake_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ajckv')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('ajckv_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []

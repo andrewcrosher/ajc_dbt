@@ -27,6 +27,10 @@
 			"type": "string",
 			"defaultValue": "https://ajcdatalakesa.dfs.core.windows.net/"
 		},
+		"ajckv_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://ajckv.vault.azure.net/"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -68,6 +72,9 @@
 					},
 					"ajcdatalake_properties_typeProperties_url": {
 						"value": "[parameters('ajcdatalake_properties_typeProperties_url')]"
+					},
+					"ajckv_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ajckv_properties_typeProperties_baseUrl')]"
 					}
 				}
 			},
