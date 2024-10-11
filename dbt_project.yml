@@ -2,10 +2,7 @@ name: 'ajc'
 version: '0.0.1'
 profile: 'ajc_adb_dbt_all_purpose'
 model-paths: ["models"]
-test-paths: ["tests"]
 seed-paths: ["seeds"]
-macro-paths: ["macros"]
-snapshot-paths: ["snapshots"]
 clean-targets:
   - "target"
   - "dbt_packages"
