@@ -1,0 +1,208 @@
+{
+	"name": "get_albums_copy",
+	"properties": {
+		"description": "Get albums data from 1001 albums website api and load to the delta lake",
+		"activities": [
+			{
+				"name": "get_album_json",
+				"description": "gets album data from api call and saves as a json file in the storage account",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "FlattenHierarchy"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "1001_albums_source",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "get_album_json_lake_raw_sink",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "load_to_delta_table",
+				"description": "takes today's json file and loads into a delta table using an adb notebook",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "get_album_json",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "storage-account-name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "storage-account-access-key",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/andrewcrosher@outlook.com/ajc_dbt/adb/load_albums_delta",
+					"baseParameters": {
+						"storage_account_name": {
+							"value": "@variables('storage-account-name')",
+							"type": "Expression"
+						},
+						"storage_account_access_key": {
+							"value": "@variables('storage-account-access-key')",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ajc_adb_dbt_ls",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "get_akv_secret_storage_account_key_value",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": true,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": "https://ajckv.vault.azure.net/secrets/storage-account-access-key/bbce136919584decb03b29302fc12a16?api-version=7.0",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "storage-account-access-key",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "get_akv_secret_storage_account_key_value",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": true,
+					"secureInput": true
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "storage-account-access-key",
+					"value": {
+						"value": "@activity('get_akv_secret_storage_account_key_value').output.value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "get_akv_secret_storage_account_name",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": true,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": "https://ajckv.vault.azure.net/secrets/storage-account-name/f37c2bcfa2ca4eb9bdd9dfb8fe16fbfd?api-version=7.0",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "storage-account-name",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "get_akv_secret_storage_account_name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": true,
+					"secureInput": true
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "storage-account-name",
+					"value": {
+						"value": "@activity('get_akv_secret_storage_account_name').output.value",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"storage-account-access-key": {
+				"type": "String"
+			},
+			"storage-account-name": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-10-04T20:11:04Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
