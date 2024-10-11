@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "a trigger to run at 1410 every day",
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
