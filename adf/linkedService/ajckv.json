@@ -1,0 +1,10 @@
+{
+	"name": "ajckv",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://ajckv.vault.azure.net/"
+		}
+	}
+}
