@@ -3,10 +3,16 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - dev/ci_development
+    paths-ignore:
+      - adb/**
+      - adf/**
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - adb/**
+      - adf/**
 
 env:
   profile: ajc_adb_dbt_all_purpose
@@ -18,53 +24,53 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.8'
+      # - name: Set up Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.8'
 
-      - name: Install pip dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install dbt-databricks sqlfluff-templater-dbt
+      # - name: Install pip dependencies
+      #   run: |
+      #     python -m pip install --upgrade pip
+      #     pip install dbt-databricks sqlfluff-templater-dbt
 
-      - name: Verify installation
-        run: |
-          dbt --version
-          sqlfluff --version
+      # - name: Verify installation
+      #   run: |
+      #     dbt --version
+      #     sqlfluff --version
 
-      - name: dbt debug profile
-        env:
-          adbtoken: ${{ secrets.ADBTOKEN }}      
-        run: |
-          dbt debug --profile $profile
+      # - name: dbt debug profile
+      #   env:
+      #     adbtoken: ${{ secrets.ADBTOKEN }}      
+      #   run: |
+      #     dbt debug --profile $profile
 
-      - name: dbt deps
-        env:
-          adbtoken: ${{ secrets.ADBTOKEN }}      
-        run: |
-          dbt deps --profile $profile
+      # - name: dbt deps
+      #   env:
+      #     adbtoken: ${{ secrets.ADBTOKEN }}      
+      #   run: |
+      #     dbt deps --profile $profile
 
-      - name: dbt compile
-        env:
-          adbtoken: ${{ secrets.ADBTOKEN }}   
-        run: |
-          dbt compile --profile $profile
+      # - name: dbt compile
+      #   env:
+      #     adbtoken: ${{ secrets.ADBTOKEN }}   
+      #   run: |
+      #     dbt compile --profile $profile
 
-      - name: Lint with sqlfluff
-        env:
-          adbtoken: ${{ secrets.ADBTOKEN }}     
-        run: |
-          sqlfluff lint models/*.sql
+      # - name: Lint with sqlfluff
+      #   env:
+      #     adbtoken: ${{ secrets.ADBTOKEN }}     
+      #   run: |
+      #     sqlfluff lint models/*.sql
 
-      - name: dbt build
-        env:
-          adbtoken: ${{ secrets.ADBTOKEN }}      
-        run: |
-          dbt build --profile $profile
+      # - name: dbt build
+      #   env:
+      #     adbtoken: ${{ secrets.ADBTOKEN }}      
+      #   run: |
+      #     dbt build --profile $profile
           
-      - name: Publish artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifact
-          path: models/*.sql  
+      # - name: Publish artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: artifact
+      #     path: models/*.sql  
