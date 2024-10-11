@@ -20,7 +20,7 @@ access token is stored as an environment variable called `ADBTOKEN`.
 
 Build status:
 
-[![CI](https://github.com/andrewcrosher/ajc_dbt/actions/workflows/main.yml/badge.svg)](https://github.com/andrewcrosher/ajc_dbt/actions/workflows/main.yml)
+[![build_dbt](https://github.com/andrewcrosher/ajc_dbt/actions/workflows/build_dbt.yml/badge.svg)](https://github.com/andrewcrosher/ajc_dbt/actions/workflows/build_dbt.yml)
 
 ## Extract: Data Factory
 
