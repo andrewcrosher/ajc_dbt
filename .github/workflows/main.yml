@@ -75,5 +75,3 @@ jobs:
           name: dbt_artifact
           path: |
             '**/*'
-            !adf/**
-            !adb/**
