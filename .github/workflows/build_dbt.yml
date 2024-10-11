@@ -39,35 +39,35 @@ jobs:
           dbt --version
           sqlfluff --version
 
-      # - name: dbt debug
-      #   env:
-      #     adbtoken: ${{ secrets.ADBTOKEN }}      
-      #   run: |
-      #     dbt debug --profile $profile
+      - name: dbt debug
+        env:
+          adbtoken: ${{ secrets.ADBTOKEN }}      
+        run: |
+          dbt debug --profile $profile
 
-      # - name: dbt deps
-      #   env:
-      #     adbtoken: ${{ secrets.ADBTOKEN }}      
-      #   run: |
-      #     dbt deps --profile $profile
+      - name: dbt deps
+        env:
+          adbtoken: ${{ secrets.ADBTOKEN }}      
+        run: |
+          dbt deps --profile $profile
 
-      # - name: dbt compile
-      #   env:
-      #     adbtoken: ${{ secrets.ADBTOKEN }}   
-      #   run: |
-      #     dbt compile --profile $profile
+      - name: dbt compile
+        env:
+          adbtoken: ${{ secrets.ADBTOKEN }}   
+        run: |
+          dbt compile --profile $profile
 
-      # - name: sqlfluff lint
-      #   env:
-      #     adbtoken: ${{ secrets.ADBTOKEN }}     
-      #   run: |
-      #     sqlfluff lint models/*.sql
+      - name: sqlfluff lint
+        env:
+          adbtoken: ${{ secrets.ADBTOKEN }}     
+        run: |
+          sqlfluff lint models/*.sql
 
-      # - name: dbt build
-      #   env:
-      #     adbtoken: ${{ secrets.ADBTOKEN }}      
-      #   run: |
-      #     dbt build --profile $profile
+      - name: dbt build
+        env:
+          adbtoken: ${{ secrets.ADBTOKEN }}      
+        run: |
+          dbt build --profile $profile
           
       - name: artifact publish
         uses: actions/upload-artifact@v4
