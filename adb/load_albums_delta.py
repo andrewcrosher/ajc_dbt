@@ -18,8 +18,8 @@ from datetime import datetime
 date = datetime.now().strftime("%Y%m%d")
 
 # Define the storage account details
-storage_account_name = "ajcdatalakesa"
-storage_account_access_key = "Lb8vlf4zr2PF3ssKyaQ41WPhgFbk2bNy1SHwzvVc0NPSWbNHBOBtSdGycqfYOJYMykXE5hoka3hS+AStrlQjrg=="
+storage_account_name = dbutils.widgets.get("storage_account_name")
+storage_account_access_key = dbutils.widgets.get("storage_account_access_key")
 container_name = "albums"
 file_path = f"raw/{date}-raw_albums.json"
 
