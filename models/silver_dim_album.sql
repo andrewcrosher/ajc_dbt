@@ -4,6 +4,7 @@ with cte_all as (
         h.album.name as album,
         h.album.artist,
         h.album.releasedate as release_date,
+        h.album.genres as genres,
         h.album.wikipediaurl as wikipedia_url,
         h.generatedat as reviewed_on
     from
@@ -25,6 +26,7 @@ select
     album,
     artist,
     release_date,
+    genres,
     wikipedia_url
 from
     cte_dedup
