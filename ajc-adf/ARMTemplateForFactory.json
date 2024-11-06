@@ -258,6 +258,43 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/maintain_delta')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Run the ADB maintenance script",
+				"activities": [
+					{
+						"name": "maintain_delta",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/andrewcrosher@outlook.com/ajc_dbt/adb/maintain_delta"
+						},
+						"linkedServiceName": {
+							"referenceName": "ajc_adb_dbt_ls",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ajc_adb_dbt_ls')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/1001_albums_source')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -787,17 +824,16 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/daily_1410')]",
+			"name": "[concat(parameters('factoryName'), '/weekly')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "a trigger to run at 1410 every day",
 				"annotations": [],
-				"runtimeState": "Stopped",
+				"runtimeState": "Started",
 				"pipelines": [
 					{
 						"pipelineReference": {
-							"referenceName": "get_albums",
+							"referenceName": "maintain_delta",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
@@ -806,23 +842,26 @@
 				"type": "ScheduleTrigger",
 				"typeProperties": {
 					"recurrence": {
-						"frequency": "Day",
+						"frequency": "Week",
 						"interval": 1,
-						"startTime": "2024-09-22T12:59:00",
+						"startTime": "2024-11-06T22:00:00",
 						"timeZone": "GMT Standard Time",
 						"schedule": {
 							"minutes": [
-								10
+								0
 							],
 							"hours": [
-								14
+								23
+							],
+							"weekDays": [
+								"Wednesday"
 							]
 						}
 					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/get_albums')]"
+				"[concat(variables('factoryId'), '/pipelines/maintain_delta')]"
 			]
 		}
 	]
