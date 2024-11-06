@@ -1,13 +1,12 @@
 {
-	"name": "daily_1410",
+	"name": "weekly",
 	"properties": {
-		"description": "a trigger to run at 1410 every day",
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "get_albums",
+					"referenceName": "maintain_delta",
 					"type": "PipelineReference"
 				}
 			}
@@ -15,16 +14,19 @@
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
-				"frequency": "Day",
+				"frequency": "Week",
 				"interval": 1,
-				"startTime": "2024-09-22T12:59:00",
+				"startTime": "2024-11-06T22:00:00",
 				"timeZone": "GMT Standard Time",
 				"schedule": {
 					"minutes": [
-						10
+						0
 					],
 					"hours": [
-						14
+						23
+					],
+					"weekDays": [
+						"Wednesday"
 					]
 				}
 			}
