@@ -18,7 +18,8 @@ cte_dedup as (
             ca.*,
             row_number()
                 over (
-                    partition by ca.youtube_id order by ca.load_timestamp desc
+                    partition by ca.youtube_id
+                    order by ca.load_timestamp desc
                 )
             as rn
         from cte_all as ca
