@@ -19,12 +19,12 @@ cte_dedup as (
 ),
 
 cte_genres as (
-select
-  distinct genre
-  , subgenres
-from
-  cte_dedup lateral view explode(genres) as genre
+    select distinct
+        genre,
+        subgenres
+    from
+        cte_dedup lateral view explode(genres) as genre
 )
 
-SELECT *
-FROM cte_genres
+select *
+from cte_genres
