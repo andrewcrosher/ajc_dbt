@@ -41,4 +41,4 @@ from pyspark.sql.functions import current_timestamp
 df_with_timestamp = df.withColumn("load_timestamp", current_timestamp())
 
 # Write the DataFrame to a Delta table in the Hive metastore in append mode, targeting the 'albums' schema
-df_with_timestamp.write.format("delta").mode("append").saveAsTable("albums.ajc_albums")
+df_with_timestamp.write.format("delta").mode("append").saveAsTable("albums.ajc_albums").option("mergeSchema", "true")
