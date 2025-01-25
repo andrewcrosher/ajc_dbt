@@ -61,6 +61,24 @@ models:
         tests:
           - not_null
           - unique
+      - name: spotify_id
+        description: The Spotify album ID
+        data_type: string
+      - name: apple_music_id
+        description: The Apple Music album ID
+        data_type: string
+      - name: tidal_id
+        description: The Tidal album ID
+        data_type: string
+      - name: amazon_music_id
+        description: The Amazon Music album ID
+        data_type: string
+      - name: qobuz_id
+        description: The Qobuz album ID
+        data_type: string
+      - name: deezer_id
+        description: The Deezer album ID
+        data_type: string
       - name: album
         description: The name of the album
         data_type: string
