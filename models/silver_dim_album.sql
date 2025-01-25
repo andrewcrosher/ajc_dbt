@@ -1,12 +1,12 @@
 with cte_all as (
     select
         h.album.youtubemusicid as youtube_id,
-        h.album.spotifyId as spotifyId,
-        h.album.appleMusicId as appleMusicId,
-        h.album.tidalId as tidalId,
-        h.album.amazonMusicId as amazonMusicId,
-        h.album.qobuzId as qobuzId,
-        h.album.deezerId as deezerId,
+        h.album.spotifyid as spotify_id,
+        h.album.applemusicid as apple_music_id,
+        h.album.tidalid as tidal_id,
+        h.album.amazonmusicid as amazon_music_id,
+        h.album.qobuzid as qobuz_id,
+        h.album.deezerid as deezer_id,
         h.album.name as album,
         h.album.artist,
         h.album.releasedate as release_date,
@@ -29,12 +29,12 @@ cte_dedup as (
 
 select
     youtube_id,
-    spotifyId,
-    appleMusicId,
-    tidalId,
-    amazonMusicId,
-    qobuzId,
-    deezerId
+    spotify_id,
+    apple_music_id,
+    tidal_id,
+    amazon_music_id,
+    qobuz_id,
+    deezer_id,
     album,
     artist,
     release_date,
