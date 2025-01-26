@@ -11,10 +11,6 @@ This is a simple personal project to extract and model music album data using Az
 - [Transform: dbt](#transform-dbt)
 - [Visualisation: Databricks](#visualisation-databricks)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
 
 ## Data: 1001 Albums To Hear Before You Die
 
