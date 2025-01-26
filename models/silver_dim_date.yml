@@ -1,57 +1,5 @@
 version: 2
-sources:
-  - name: albums
-    schema: albums
-    tables:
-      - name: ajc_albums
 models:
-  - name: bronze_albums
-    description: a bronze dbt model of the raw albums info
-    columns:
-      - name: currentAlbum
-        data_type: struct<amazonmusicid:string,applemusicid:string,artist:string,artistorigin:string,deezerid:string,genres:array<string>,globalreviewsurl:string,images:array<struct<height:bigint,url:string,width:bigint>>,name:string,qobuzid:string,releasedate:string,slug:string,spotifyid:string,subgenres:array<string>,tidalid:bigint,wikipediaurl:string,youtubemusicid:string>
-      - name: currentAlbumNotes
-        data_type: string
-      - name: history
-        data_type: array<struct<album:struct<amazonmusicid:string,applemusicid:string,artist:string,artistorigin:string,deezerid:string,genres:array<string>,globalreviewsurl:string,images:array<struct<height:bigint,url:string,width:bigint>>,name:string,qobuzid:string,releasedate:string,slug:string,spotifyid:string,subgenres:array<string>,tidalid:bigint,wikipediaurl:string,youtubemusicid:string>,generatedat:string,globalrating:double,rating:bigint,revealedalbum:boolean,review:string>>
-      - name: name
-        data_type: string
-      - name: shareableUrl
-        data_type: string
-      - name: updateFrequency
-        data_type: string
-      - name: load_timestamp
-        data_type: timestamp
-
-  - name: silver_fact_review
-    description: a fact table of album review measures
-    columns:
-      - name: youtube_id
-        description: The PK of the table, the YouTube album ID
-        data_type: string
-        tests:
-          - not_null
-          - unique
-      - name: my_rating
-        description: My rating
-        data_type: bigint
-        tests:
-          - accepted_values:
-              values:
-                - "1"
-                - "2"
-                - "3"
-                - "4"
-                - "5"
-      - name: global_rating
-        description: The global rating
-        data_type: double
-      - name: review_date
-        description: The date when the review was logged
-        data_type: date
-        tests:
-          - not_null
-
   - name: silver_dim_date
     description: a date dimension, materialised as a table using the dbt_date.get_date_dimension macro
     columns:
@@ -163,16 +111,3 @@ models:
       - name: year_end_date
         data_type: date
         quote: true
-
-exposures:
-  - name: 1001_albums_review_dashboard
-    type: dashboard
-    maturity: high
-    url: https://adb-2359489148887710.10.azuredatabricks.net/dashboardsv3/01ef83092f1b1403b7967bea7000d543/published?o=2359489148887710&f_01ef8314636c17ee88df636697944312=_all_&f_01ef8315346e1f7e9848122c041edf4b=_all_
-    description: >
-      A Databricks dashboard
-    depends_on:
-      - ref('gold_fact_review')
-    owner:
-      name: Andrew Crosher
-      email: andrewcrosher@outlook.com

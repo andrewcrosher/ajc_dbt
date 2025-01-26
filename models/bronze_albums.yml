@@ -1,0 +1,26 @@
+version: 2
+
+sources:
+  - name: albums
+    schema: albums
+    tables:
+      - name: ajc_albums
+
+models:
+  - name: bronze_albums
+    description: a bronze dbt model of the raw albums info
+    columns:
+      - name: currentAlbum
+        data_type: struct<amazonmusicid:string,applemusicid:string,artist:string,artistorigin:string,deezerid:string,genres:array<string>,globalreviewsurl:string,images:array<struct<height:bigint,url:string,width:bigint>>,name:string,qobuzid:string,releasedate:string,slug:string,spotifyid:string,subgenres:array<string>,tidalid:bigint,wikipediaurl:string,youtubemusicid:string>
+      - name: currentAlbumNotes
+        data_type: string
+      - name: history
+        data_type: array<struct<album:struct<amazonmusicid:string,applemusicid:string,artist:string,artistorigin:string,deezerid:string,genres:array<string>,globalreviewsurl:string,images:array<struct<height:bigint,url:string,width:bigint>>,name:string,qobuzid:string,releasedate:string,slug:string,spotifyid:string,subgenres:array<string>,tidalid:bigint,wikipediaurl:string,youtubemusicid:string>,generatedat:string,globalrating:double,rating:bigint,revealedalbum:boolean,review:string>>
+      - name: name
+        data_type: string
+      - name: shareableUrl
+        data_type: string
+      - name: updateFrequency
+        data_type: string
+      - name: load_timestamp
+        data_type: timestamp
