@@ -1,5 +1,5 @@
 .vscode/
-target/
-dbt_packages/
-logs/
-ajc_venv/
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+dbt/ajc_venv/
