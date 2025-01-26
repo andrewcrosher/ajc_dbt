@@ -1,0 +1,14 @@
+version: 2
+models:
+  - name: silver_dim_genre
+    description: a dimension table of all genres
+    columns:
+      - name: youtube_id
+        description: The YouTube album ID
+        data_type: string
+      - name: genres
+        description: The genre of the album
+        data_type: string
+      - name: subgenre
+        description: The subgenre of the album
+        data_type: string

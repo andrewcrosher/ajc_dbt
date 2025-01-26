@@ -52,54 +52,6 @@ models:
         tests:
           - not_null
 
-  - name: silver_dim_album
-    description: a dimension table of all albums reviewed
-    columns:
-      - name: youtube_id
-        description: The PK of the table, the YouTube album ID
-        data_type: string
-        tests:
-          - not_null
-          - unique
-      - name: spotify_id
-        description: The Spotify album ID
-        data_type: string
-      - name: apple_music_id
-        description: The Apple Music album ID
-        data_type: string
-      - name: tidal_id
-        description: The Tidal album ID
-        data_type: string
-      - name: amazon_music_id
-        description: The Amazon Music album ID
-        data_type: string
-      - name: qobuz_id
-        description: The Qobuz album ID
-        data_type: string
-      - name: deezer_id
-        description: The Deezer album ID
-        data_type: string
-      - name: album
-        description: The name of the album
-        data_type: string
-        tests:
-          - not_null
-      - name: artist
-        description: The name of the album artist
-        data_type: string
-        tests:
-          - not_null
-      - name: release_date
-        description: Year that the album was released
-        data_type: string
-        tests:
-          - not_null
-      - name: wikipedia_url
-        description: URL of the Wikipedia article for this album
-        data_type: string
-        tests:
-          - not_null
-
   - name: silver_dim_date
     description: a date dimension, materialised as a table using the dbt_date.get_date_dimension macro
     columns:
@@ -209,47 +161,6 @@ models:
         data_type: date
         quote: true
       - name: year_end_date
-        data_type: date
-        quote: true
-
-  - name: silver_dim_genre
-    description: a dimension table of all genres
-    columns:
-      - name: genre
-        description: The genre of the album
-        data_type: string
-      - name: subgenre
-        description: The subgenre of the album
-        data_type: string
-
-  - name: gold_fact_review
-    columns:
-      - name: Album
-        description: The album being rated
-        data_type: string
-        quote: true
-      - name: Artist
-        description: The album artist
-        data_type: string
-        quote: true
-      - name: Release Year
-        description: The year of release
-        data_type: int
-        quote: true
-      - name: My Rating
-        description: The rating I gave
-        data_type: bigint
-        quote: true
-      - name: Global Rating
-        description: The global rating
-        data_type: double
-        quote: true
-      - name: My Relative Rating
-        description: My rating indexed against the global rating
-        data_type: decimal(5,2)
-        quote: true
-      - name: Review Date
-        description: The date of the review
         data_type: date
         quote: true
 

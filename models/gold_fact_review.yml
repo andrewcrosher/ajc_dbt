@@ -1,0 +1,36 @@
+version: 2
+models:
+  - name: gold_fact_review
+    columns:
+      - name: Album
+        description: The album being rated
+        data_type: string
+        quote: true
+      - name: Artist
+        description: The album artist
+        data_type: string
+        quote: true
+      - name: Release Year
+        description: The year of release
+        data_type: int
+        quote: true
+      - name: Genres
+        description: The genres of the album
+        data_type: string
+        quote: true
+      - name: My Rating
+        description: The rating I gave
+        data_type: bigint
+        quote: true
+      - name: Global Rating
+        description: The global rating
+        data_type: double
+        quote: true
+      - name: My Relative Rating
+        description: My rating indexed against the global rating
+        data_type: decimal(5,2)
+        quote: true
+      - name: Review Date
+        description: The date of the review
+        data_type: date
+        quote: true
