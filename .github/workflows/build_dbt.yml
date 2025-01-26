@@ -7,14 +7,14 @@ on:
     paths-ignore:
       - adb/**
       - adf/**
-      - readme.md
+      - README.md
   pull_request:
     branches:
       - main
     paths-ignore:
       - adb/**
       - adf/**
-      - readme.md
+      - README.md
 
 env:
   profile: ajc_adb_dbt_all_purpose

@@ -6,7 +6,7 @@ This is a simple personal project to extract and model music album data using Az
 
 ## Data: 1001 Albums To Hear Before You Die
 
-Data is sourced from an API provided by the webapp [1001albumsgenerator](https://1001albumsgenerator.com/), based off
+Data is sourced from an API provided by the webapp [1001albumsgenerator](https://1001albumsgenerator.com/), based on
 the book `1001 Albums You Must Hear Before You Die` by Robert Dimery.
 
 Every day a new music album is listened to and rated. The API tracks the albums listened to and the rating assigned,
@@ -30,6 +30,8 @@ pipeline `get_albums`.
 The pipeline then calls an Azure Databricks notebook called `load_albums_delta` that loads today's json file into a 
 delta table in an ADB workspace. 
 
+In addition, each week a maintainence script optimizes and vacuums the delta table.
+
 Storage account access is managed via an API call to an Azure Key Vault that hold the details of a storage account
 key to be used by Databricks to connect to.
 
@@ -46,5 +48,3 @@ visualisation.
 
 In the ADB workspace, a Dashboard visualisation uses the Gold layer of the dbt warehouse and provides simple
 visualisations and analysis.
-
-Users with permission can access the visualisation dashboard via the ADB workspace [here](https://adb-2359489148887710.10.azuredatabricks.net/dashboardsv3/01ef83092f1b1403b7967bea7000d543/published?o=2359489148887710)
