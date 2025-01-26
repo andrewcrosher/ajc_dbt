@@ -45,30 +45,35 @@ jobs:
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}      
         run: |
+          cd dbt
           dbt debug --profile $profile
 
       - name: dbt deps
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}      
         run: |
+          cd dbt
           dbt deps --profile $profile
 
       - name: dbt compile
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}   
         run: |
+          cd dbt
           dbt compile --profile $profile
 
       - name: sqlfluff lint
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}     
         run: |
+          cd dbt
           sqlfluff lint models/*.sql
 
       - name: dbt build
         env:
           adbtoken: ${{ secrets.ADBTOKEN }}      
         run: |
+          cd dbt
           dbt build --profile $profile
           
       - name: artifact publish
@@ -76,6 +81,6 @@ jobs:
         with:
           name: dbt_artifact
           path: |
-            **/*
+            dbt/*
             !adf/**
             !adb/**
