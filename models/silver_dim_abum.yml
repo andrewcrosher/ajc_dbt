@@ -1,0 +1,49 @@
+version: 2
+models:
+  - name: silver_dim_album
+    description: a dimension table of all albums reviewed
+    columns:
+      - name: youtube_id
+        description: The PK of the table, the YouTube album ID
+        data_type: string
+        tests:
+          - not_null
+          - unique
+      - name: spotify_id
+        description: The Spotify album ID
+        data_type: string
+      - name: apple_music_id
+        description: The Apple Music album ID
+        data_type: string
+      - name: tidal_id
+        description: The Tidal album ID
+        data_type: string
+      - name: amazon_music_id
+        description: The Amazon Music album ID
+        data_type: string
+      - name: qobuz_id
+        description: The Qobuz album ID
+        data_type: string
+      - name: deezer_id
+        description: The Deezer album ID
+        data_type: string
+      - name: album
+        description: The name of the album
+        data_type: string
+        tests:
+          - not_null
+      - name: artist
+        description: The name of the album artist
+        data_type: string
+        tests:
+          - not_null
+      - name: release_date
+        description: Year that the album was released
+        data_type: string
+        tests:
+          - not_null
+      - name: wikipedia_url
+        description: URL of the Wikipedia article for this album
+        data_type: string
+        tests:
+          - not_null

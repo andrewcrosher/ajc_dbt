@@ -2,7 +2,7 @@ select
     da.album as `Album`,
     da.artist as `Artist`,
     cast(da.release_date as int) as `Release Year`,
-    da.genres as `Genres`,
+    dg.genres as `Genres`,
     fr.my_rating as `My Rating`,
     fr.global_rating as `Global Rating`,
     cast(
@@ -15,5 +15,8 @@ from
 inner join
     {{ ref("silver_dim_album") }} as da
     on fr.youtube_id = da.youtube_id
+inner join
+    {{ ref("silver_dim_genre") }} as dg
+    on fr.youtube_id = dg.youtube_id
 order by
     fr.review_date desc

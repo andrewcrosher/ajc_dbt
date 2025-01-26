@@ -16,15 +16,7 @@ cte_dedup as (
         cte_all
     order by
         reviewed_on
-),
-
-cte_genres as (
-    select distinct
-        genre,
-        subgenres
-    from
-        cte_dedup lateral view explode(genres) as genre
 )
 
 select *
-from cte_genres
+from cte_dedup
