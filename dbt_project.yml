@@ -1,11 +1,15 @@
-name: 'ajc'
+name: 'ajc_dbt'
+
 version: '0.0.1'
+
 profile: 'ajc_adb_dbt_all_purpose'
 model-paths: ["models"]
 seed-paths: ["seeds"]
+
 clean-targets:
   - "target"
   - "dbt_packages"
+
 models:
   +persist_docs:
     relation: true
