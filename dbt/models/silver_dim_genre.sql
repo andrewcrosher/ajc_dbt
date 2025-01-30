@@ -18,7 +18,7 @@ cte_dedup as (
         reviewed_on
 )
 
-select 
+select
     youtube_id,
     genres,
     subgenres,
