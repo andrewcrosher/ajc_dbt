@@ -18,5 +18,9 @@ cte_dedup as (
         reviewed_on
 )
 
-select *
+select 
+    youtube_id,
+    genres,
+    subgenres,
+    reviewed_on
 from cte_dedup
