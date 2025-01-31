@@ -10,7 +10,3 @@ clean-targets:
   - "target"
   - "dbt_packages"
 
-models:
-  +persist_docs:
-    relation: true
-    columns: true
