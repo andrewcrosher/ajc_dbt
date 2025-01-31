@@ -1,16 +1,16 @@
 # ajc_dbt
 
+- [ajc\_dbt](#ajc_dbt)
+  - [Summary](#summary)
+  - [Data: 1001 Albums To Hear Before You Die](#data-1001-albums-to-hear-before-you-die)
+  - [Build: GitHub Actions](#build-github-actions)
+  - [Extract: Data Factory](#extract-data-factory)
+  - [Transform: dbt](#transform-dbt)
+  - [Visualisation: Databricks](#visualisation-databricks)
+
 ## Summary
 
 This is a simple personal project to extract and model music album data using Azure Data Factory, dbt, and Databricks.
-
-## Table of Contents
-- [Data: 1001 Albums To Hear Before You Die](#data-1001-albums-to-hear-before-you-die)
-- [Build: GitHub Actions](#build-github-actions)
-- [Extract: Data Factory](#extract-data-factory)
-- [Transform: dbt](#transform-dbt)
-- [Visualisation: Databricks](#visualisation-databricks)
-- [Installation](#installation)
 
 ## Data: 1001 Albums To Hear Before You Die
 
@@ -45,10 +45,3 @@ Once the data is loaded into the delta lake, it can be transformed into the desi
 ## Visualisation: Databricks
 
 In the ADB workspace, a Dashboard visualization uses the Gold layer of the dbt warehouse and provides simple visualizations and analysis.
-
-## Installation
-
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/andrewcrosher/ajc_dbt.git
-   cd ajc_dbt
