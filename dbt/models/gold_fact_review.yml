@@ -1,6 +1,8 @@
 version: 2
 models:
   - name: gold_fact_review
+    description: >
+      A fact table of album reviews with my rating indexed against the global rating
     columns:
       - name: Album
         description: The album being rated

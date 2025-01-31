@@ -1,7 +1,7 @@
 version: 2
 models:
   - name: silver_dim_album
-    description: a dimension table of all albums reviewed
+    description: a dimension table of all albums reviewed with their metadata and streaming IDs.
     columns:
       - name: youtube_id
         description: The PK of the table, the YouTube album ID
