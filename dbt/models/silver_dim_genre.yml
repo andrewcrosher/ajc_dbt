@@ -6,6 +6,10 @@ models:
       - name: youtube_id
         description: The YouTube album ID
         data_type: string
+        tests:
+          - relationships:
+              to: ref('silver_dim_album')
+              field: youtube_id
       - name: genres
         description: The genre of the album
         data_type: string
