@@ -9,6 +9,9 @@ models:
         tests:
           - not_null
           - unique
+          - relationships:
+              to: ref('silver_dim_album')
+              field: youtube_id
       - name: my_rating
         description: My rating
         data_type: bigint
@@ -23,6 +26,8 @@ models:
       - name: global_rating
         description: The global rating
         data_type: double
+        tests: 
+          - not_null
       - name: review_date
         description: The date when the review was logged
         data_type: date
