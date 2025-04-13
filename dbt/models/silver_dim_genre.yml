@@ -3,13 +3,13 @@ models:
   - name: silver_dim_genre
     description: a dimension table of all genres
     columns:
-      - name: youtube_id
-        description: The YouTube album ID
+      - name: wikipedia_url
+        description: The Wikipedia url of the album
         data_type: string
         tests:
           - relationships:
               to: ref('silver_dim_album')
-              field: youtube_id
+              field: wikipedia_url
       - name: genres
         description: The genre of the album
         data_type: string

@@ -1,6 +1,6 @@
 with cte_all as (
     select
-        h.album.youtubemusicid as youtube_id,
+        h.album.wikipedia_url as wikipedia_url,
         h.rating as my_rating,
         h.globalrating as global_rating,
         h.generatedat as reviewed_on,
@@ -18,7 +18,7 @@ cte_dedup as (
             ca.*,
             row_number()
                 over (
-                    partition by ca.youtube_id
+                    partition by ca.wikipedia_url
                     order by ca.load_timestamp desc
                 )
             as rn
@@ -28,7 +28,7 @@ cte_dedup as (
 )
 
 select
-    youtube_id,
+    wikipedia_url,
     my_rating,
     global_rating,
     cast(reviewed_on as date) as review_date
