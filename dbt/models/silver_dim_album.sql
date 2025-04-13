@@ -24,15 +24,20 @@ cte_dedup as (
         cte_all
     order by
         reviewed_on
-)
+),
 
 cte_latest_row_only as (
     select *
     from
         (
-            select 
+            select
                 *,
-                row_number() over (partition by wikipedia_url order by reviewed_on desc) as row_num
+                row_number()
+                    over (
+                        partition by wikipedia_url
+                        order by reviewed_on desc
+                    )
+                as row_num
             from
                 cte_dedup
         )
