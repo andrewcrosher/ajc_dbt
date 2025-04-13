@@ -1,6 +1,6 @@
 with cte_all as (
     select
-        h.album.wikipedia_url,
+        h.album.wikipediaurl as wikipedia_url,
         h.album.genres,
         h.album.subgenres,
         h.generatedat as reviewed_on

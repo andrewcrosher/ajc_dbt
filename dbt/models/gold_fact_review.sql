@@ -14,9 +14,9 @@ from
     {{ ref('silver_fact_review') }} as fr
 inner join
     {{ ref("silver_dim_album") }} as da
-    on fr.youtube_id = da.youtube_id
+    on fr.wikipedia_url = da.wikipedia_url
 inner join
     {{ ref("silver_dim_genre") }} as dg
-    on fr.youtube_id = dg.youtube_id
+    on fr.wikipedia_url = dg.wikipedia_url
 order by
     fr.review_date desc
