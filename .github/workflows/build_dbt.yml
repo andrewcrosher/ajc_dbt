@@ -15,6 +15,7 @@ on:
       - adb/**
       - adf/**
       - 'README.md'
+  workflow_dispatch:
 
 env:
   profile: ajc_adb_dbt_all_purpose
