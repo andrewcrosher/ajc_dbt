@@ -24,7 +24,7 @@ cte_dedup as (
         cte_all
     order by
         reviewed_on
-)
+),
 
 cte_latest_row_only as (
     select *
