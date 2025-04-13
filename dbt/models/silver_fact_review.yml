@@ -3,15 +3,15 @@ models:
   - name: silver_fact_review
     description: a fact table of album review measures and metadata
     columns:
-      - name: youtube_id
-        description: The PK of the table, the YouTube album ID
+      - name: wikipedia_url
+        description: The PK of the table, the Wikipedia URL
         data_type: string
         tests:
           - not_null
           - unique
           - relationships:
               to: ref('silver_dim_album')
-              field: youtube_id
+              field: wikipedia_url
       - name: my_rating
         description: My rating
         data_type: bigint

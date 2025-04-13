@@ -4,11 +4,8 @@ models:
     description: a dimension table of all albums reviewed with their metadata and streaming IDs.
     columns:
       - name: youtube_id
-        description: The PK of the table, the YouTube album ID
+        description: The YouTube album ID
         data_type: string
-        tests:
-          - not_null
-          - unique
       - name: spotify_id
         description: The Spotify album ID
         data_type: string
@@ -43,7 +40,8 @@ models:
         tests:
           - not_null
       - name: wikipedia_url
-        description: URL of the Wikipedia article for this album
+        description: The PK of the table, the URL of the Wikipedia article for this album
         data_type: string
         tests:
           - not_null
+          - unique
