@@ -26,6 +26,20 @@ cte_dedup as (
         reviewed_on
 )
 
+cte_latest_row_only as (
+    select *
+    from
+        (
+            select 
+                *,
+                row_number() over (partition by wikipedia_url order by reviewed_on desc) as row_num
+            from
+                cte_dedup
+        )
+    where
+        row_num = 1
+)
+
 select
     youtube_id,
     spotify_id,
@@ -39,4 +53,4 @@ select
     release_date,
     wikipedia_url
 from
-    cte_dedup
+    cte_latest_row_only
