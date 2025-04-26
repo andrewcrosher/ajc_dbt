@@ -96,7 +96,7 @@
 					},
 					{
 						"name": "load_to_delta_table",
-						"description": "takes today's json file and loads into a delta table using an adb notebook",
+						"description": "takes today's json file and loads into a delta table using the load_albums_delta adb notebook",
 						"type": "DatabricksNotebook",
 						"dependsOn": [
 							{
@@ -106,13 +106,13 @@
 								]
 							},
 							{
-								"activity": "storage-account-name",
+								"activity": "get_akv_secret_storage_account_name",
 								"dependencyConditions": [
 									"Succeeded"
 								]
 							},
 							{
-								"activity": "storage-account-access-key",
+								"activity": "get_akv_secret_storage_account_key_value",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -123,18 +123,18 @@
 							"retry": 0,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
-							"secureInput": false
+							"secureInput": true
 						},
 						"userProperties": [],
 						"typeProperties": {
 							"notebookPath": "/Users/andrewcrosher@outlook.com/ajc_dbt/adb/load_albums_delta",
 							"baseParameters": {
 								"storage_account_name": {
-									"value": "@variables('storage-account-name')",
+									"value": "@activity('get_akv_secret_storage_account_name').output.value",
 									"type": "Expression"
 								},
 								"storage_account_access_key": {
-									"value": "@variables('storage-account-access-key')",
+									"value": "@activity('get_akv_secret_storage_account_key_value').output.value",
 									"type": "Expression"
 								}
 							}
@@ -146,6 +146,7 @@
 					},
 					{
 						"name": "get_akv_secret_storage_account_key_value",
+						"description": "Get the storage account key from the Azure Key vault",
 						"type": "WebActivity",
 						"dependsOn": [],
 						"policy": {
@@ -153,7 +154,7 @@
 							"retry": 0,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": true,
-							"secureInput": false
+							"secureInput": true
 						},
 						"userProperties": [],
 						"typeProperties": {
@@ -167,31 +168,8 @@
 						}
 					},
 					{
-						"name": "storage-account-access-key",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "get_akv_secret_storage_account_key_value",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": true,
-							"secureInput": true
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "storage-account-access-key",
-							"value": {
-								"value": "@activity('get_akv_secret_storage_account_key_value').output.value",
-								"type": "Expression"
-							}
-						}
-					},
-					{
 						"name": "get_akv_secret_storage_account_name",
+						"description": "Get the storage account name from the Azure Key vault",
 						"type": "WebActivity",
 						"dependsOn": [],
 						"policy": {
@@ -199,7 +177,7 @@
 							"retry": 0,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": true,
-							"secureInput": false
+							"secureInput": true
 						},
 						"userProperties": [],
 						"typeProperties": {
@@ -211,42 +189,10 @@
 								"resource": "https://vault.azure.net"
 							}
 						}
-					},
-					{
-						"name": "storage-account-name",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "get_akv_secret_storage_account_name",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": true,
-							"secureInput": true
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "storage-account-name",
-							"value": {
-								"value": "@activity('get_akv_secret_storage_account_name').output.value",
-								"type": "Expression"
-							}
-						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
-				},
-				"variables": {
-					"storage-account-access-key": {
-						"type": "String"
-					},
-					"storage-account-name": {
-						"type": "String"
-					}
 				},
 				"annotations": [],
 				"lastPublishTime": "2024-10-04T20:11:04Z"
@@ -266,6 +212,7 @@
 				"activities": [
 					{
 						"name": "maintain_delta",
+						"description": "Run the ADB maintain_delta notebook to vacuum and optimize the delta tables",
 						"type": "DatabricksNotebook",
 						"dependsOn": [],
 						"policy": {
