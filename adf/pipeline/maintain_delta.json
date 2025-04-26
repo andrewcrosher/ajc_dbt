@@ -5,6 +5,7 @@
 		"activities": [
 			{
 				"name": "maintain_delta",
+				"description": "Run the ADB maintain_delta notebook to vacuum and optimize the delta tables",
 				"type": "DatabricksNotebook",
 				"dependsOn": [],
 				"policy": {
