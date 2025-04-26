@@ -36,6 +36,10 @@ models:
         description: The date of the review
         data_type: date
         quote: true
+      - name: Release Decase
+        description: The decade of release
+        data_type: int
+        quote: true
 
 exposures:
   - name: 1001_albums_review_dashboard
